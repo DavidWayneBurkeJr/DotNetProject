@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using DotNetProject.Data;
 using DotNetProject.Models;
 using DotNetProject.Services;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace DotNetProject
 {
