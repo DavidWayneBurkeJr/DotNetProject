@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Styles\StyleSheet.less" />
+    <Content Include="Styles\site.less" />
   </ItemGroup>
 
 
