@@ -2,14 +2,22 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="main">
-    <div class="apiElement">
+<div class="main" id="main">
+    <div class="apiElement" id="addNew">
         <i class="center-icon-plus fas fa-plus"></i>
     </div>
-    <div class="apiElement">
-
-    </div>
-    <div class="apiElement">
-
-    </div>
 </div>
+
+<script type="text/javascript">
+    var addApi = function () {
+        var ok = true;
+        if (ok === true) {
+            var div = document.createElement('div');
+
+            div.className = 'apiElement';
+            document.getElementById("main").insertBefore(div, document.getElementById('addNew'));
+        }
+    }
+
+    document.getElementById("addNew").addEventListener('click', addApi);
+</script>
