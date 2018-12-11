@@ -23,12 +23,15 @@ namespace DotNetProject.Controllers
             apis = (from product in _context.APIListModels select product).ToList();
             apis.Insert(0, new APIListModel { Id = 0, APIName = "Select" });
             ViewBag.APIList = apis;
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult SelectAPI(APIListModel selection)
         {
+            List<SubscriptionModel> subscriptions = new List<SubscriptionModel>();
+            subscriptions = (from product in _context.SubscriptionModels where (product.UserId == _userManager.GetUserId(User)) select product).ToList();
             if (selection.Id == 0)
             {
                 ModelState.AddModelError("", "Select API");
@@ -36,13 +39,36 @@ namespace DotNetProject.Controllers
                 apis = (from product in _context.APIListModels select product).ToList();
                 apis.Insert(0, new APIListModel { Id = 0, APIName = "Select" });
                 ViewBag.APIList = apis;
-                return View();
+                var closeModal = new CloseModal
+                {
+                    ShouldClose = true,
+                    FetchData = false
+                };
+                return RedirectToAction("Index", "Home");
+            } else if (subscriptions.Any(u => u.ApiId == selection.Id))
+            {
+                ModelState.AddModelError("", "API already added");
+                List<APIListModel> apis = new List<APIListModel>();
+                apis = (from product in _context.APIListModels select product).ToList();
+                apis.Insert(0, new APIListModel { Id = 0, APIName = "Select" });
+                ViewBag.APIList = apis;
+                var closeModal = new CloseModal
+                {
+                    ShouldClose = true,
+                    FetchData = false
+                };
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 int SelectedValue = selection.Id;
                 _context.SubscriptionModels.Add(new SubscriptionModel { ApiId = SelectedValue, UserId = _userManager.GetUserId(User) });
                 _context.SaveChanges();
+                var closeModal = new CloseModal
+                {
+                    ShouldClose = true,
+                    FetchData = false
+                };
                 return RedirectToAction("Index", "Home");
             }
 

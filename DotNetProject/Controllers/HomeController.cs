@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using DotNetProject.Models;
 using DotNetProject.Data;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace DotNetProject.Controllers
 {
@@ -37,5 +39,23 @@ namespace DotNetProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        // API Stuff
+
+
+        protected void GetWeatherInfo(String location)
+        {
+            string appId = "f06c088d68f929077a6ba94b535fe6db";
+            string url = string.Format("http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&units=metric&cnt=1&APPID={1}", location, appId);
+            using (WebClient client = new WebClient())
+            {
+                string json = client.DownloadString(url);
+
+                WeatherInfo weatherInfo = JsonConvert.DeserializeObject<WeatherInfo>(json);
+
+            }
+        }
+
     }
 }

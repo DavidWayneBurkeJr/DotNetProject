@@ -3,6 +3,15 @@
 }
 @model IEnumerable<DotNetProject.Models.SubscriptionModel>
 
+<div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
 <div class="main" id="main">
     @if (User.Identity.IsAuthenticated)
     {
@@ -14,20 +23,43 @@
         }
     }
     <div class="apiElement" id="addNew">
-        <a asp-controller="API" asp-action="SelectAPI"><i class="center-icon-plus fas fa-plus"></i></a>
+        <a asp-controller="API" asp-action="SelectAPI" data-target="#modal-container" data-toggle="modal"><i class="center-icon-plus fas fa-plus"></i></a>
     </div>
 </div>
+@section Scripts {
+    <script type="text/javascript">
+        var addApi = function () {
+            var ok = true;
+            if (ok === true) {
+                var div = document.createElement('div');
 
-<script type="text/javascript">
-    var addApi = function () {
-        var ok = true;
-        if (ok === true) {
-            var div = document.createElement('div');
-
-            div.className = 'apiElement';
-            document.getElementById("main").insertBefore(div, document.getElementById('addNew'));
+                div.className = 'apiElement';
+                document.getElementById("main").insertBefore(div, document.getElementById('addNew'));
+            }
         }
-    }
 
-    document.getElementById("addNew").addEventListener('click', addApi);
-</script>
+        document.getElementById("addNew").addEventListener('click', addApi);
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                var position = navigator.geolocation.getCurrentPosition();
+
+                var location = position.coords.latitude + position.coords.longitute;
+            }
+        }
+
+        $(document).ready(function () {
+            $(function () {
+                // boostrap 4 load modal example from docs
+                $('#modal-container').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var url = button.attr("href");
+                    var modal = $(this);
+                    // note that this will replace the content of modal-content ever time the modal is opened
+                    modal.find('.modal-content').load(url);
+                });
+            });
+        });
+
+    </script>
+}

@@ -1,21 +1,35 @@
 ﻿@model DotNetProject.Models.APIListModel
-@{ 
-<form asp-controller="API" asp-action="SelectAPI" method="post" class="form-horizontal" role="form">
-    <div class="form-group">
-        <div class="row">
-            <div asp-validation-summary="ModelOnly"></div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <label asp-for="APIName" class="control-label"></label>
-                <select asp-for="Id" class="form-control" asp-items="@(new SelectList(@ViewBag.APIList, "Id", "APIName"))"></select>
-            </div>
-        </div>
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Form Modal</h4>
     </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <input id="Submit1" type="submit" value="submit" />
+    <form asp-action="SelectAPI" asp-controller="API" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label asp-for="APIName" class="control-label"></label>
+                        <select asp-for="Id" class="form-control" asp-items="@(new SelectList(@ViewBag.APIList, "Id", "APIName"))"></select>
+                    </div>
+                </div>
             </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <input id="Submit1" type="submit" value="submit" />
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-</form>
-}
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">OK</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+        </div>
+    </form>
+</div>
+
