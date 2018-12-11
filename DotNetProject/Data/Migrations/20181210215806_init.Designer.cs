@@ -4,14 +4,16 @@ using DotNetProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181210215806_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,15 +23,15 @@ namespace DotNetProject.Data.Migrations
 
             modelBuilder.Entity("DotNetProject.Models.APIListModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("APIName");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.ToTable("APIListModels");
+                    b.ToTable("APIListModel");
                 });
 
             modelBuilder.Entity("DotNetProject.Models.ApplicationUser", b =>
@@ -81,21 +83,6 @@ namespace DotNetProject.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("DotNetProject.Models.SubscriptionModel", b =>
-                {
-                    b.Property<int>("EntryId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApiId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("EntryId");
-
-                    b.ToTable("SubscriptionModels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

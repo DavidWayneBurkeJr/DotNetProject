@@ -1,10 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model IEnumerable<DotNetProject.Models.SubscriptionModel>
 
 <div class="main" id="main">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @foreach (var api in Model)
+        {
+            <div class="apiElement">
+                <a>@api.ApiId</a>
+            </div>
+        }
+    }
     <div class="apiElement" id="addNew">
-        <i class="center-icon-plus fas fa-plus"></i>
+        <a asp-controller="API" asp-action="SelectAPI"><i class="center-icon-plus fas fa-plus"></i></a>
     </div>
 </div>
 

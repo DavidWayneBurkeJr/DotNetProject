@@ -22,5 +22,10 @@ namespace DotNetProject.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<APIListModel> APIListModels { get; set; }
+
+        public DbSet<SubscriptionModel> SubscriptionModels { get; set; }
+
     }
 }

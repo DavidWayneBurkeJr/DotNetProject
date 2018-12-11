@@ -4,14 +4,16 @@ using DotNetProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181210233250_subscriptions")]
+    partial class subscriptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace DotNetProject.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("APIListModels");
+                    b.ToTable("APIListModel");
                 });
 
             modelBuilder.Entity("DotNetProject.Models.ApplicationUser", b =>
@@ -91,7 +93,7 @@ namespace DotNetProject.Data.Migrations
 
                     b.Property<int>("ApiId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("EntryId");
 
