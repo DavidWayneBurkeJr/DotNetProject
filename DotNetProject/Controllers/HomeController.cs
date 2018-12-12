@@ -41,21 +41,7 @@ namespace DotNetProject.Controllers
         }
 
 
-        // API Stuff
-
-
-        protected void GetWeatherInfo(String location)
-        {
-            string appId = "f06c088d68f929077a6ba94b535fe6db";
-            string url = string.Format("http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&units=metric&cnt=1&APPID={1}", location, appId);
-            using (WebClient client = new WebClient())
-            {
-                string json = client.DownloadString(url);
-
-                WeatherInfo weatherInfo = JsonConvert.DeserializeObject<WeatherInfo>(json);
-
-            }
-        }
+        
 
     }
 }

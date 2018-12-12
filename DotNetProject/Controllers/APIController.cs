@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace DotNetProject.Controllers
 {
@@ -74,6 +76,28 @@ namespace DotNetProject.Controllers
 
             
             
+        }
+
+        // API Stuff
+
+        [HttpPost]
+        public IActionResult GetWeatherInfo(string latitude, string longitude)
+        {
+            string appId = "f06c088d68f929077a6ba94b535fe6db";
+            string url = string.Format("http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&appid={2}", latitude, longitude, appId);
+            using (WebClient client = new WebClient())
+            {
+                string json = client.DownloadString(url);
+
+                WeatherInfo weatherInfo = JsonConvert.DeserializeObject<WeatherInfo>(json);
+                WeatherViewModel weatherViewModel = new WeatherViewModel
+                {
+                    City = "City",
+                    Temperature = "69",
+                    Condition = "Shitty"
+                };
+                return PartialView("WeatherView", weatherViewModel);
+            }
         }
     }
 }

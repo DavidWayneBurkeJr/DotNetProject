@@ -17,7 +17,7 @@
     {
         @foreach (var api in Model)
         {
-            <div class="apiElement">
+            <div class="apiElement" id="@api.ApiId">
                 <a>@api.ApiId</a>
             </div>
         }
@@ -41,12 +41,32 @@
         document.getElementById("addNew").addEventListener('click', addApi);
 
         function getLocation() {
-            if (navigator.geolocation) {
-                var position = navigator.geolocation.getCurrentPosition();
+            var geolocation = navigator.geolocation;
+            geolocation.getCurrentPosition(showLocation, errorHandler);
+        }
+        function showLocation(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Content("~/API/GetWeatherInfo")',
+            data: {
+                latitude: lat,
+                longitude: lon
+            },
+                success: function (result) {
+                    document.getElementById('1').innerHTML = result;
+            }
+        });
+        }
+        function errorHandler(err) {
 
-                var location = position.coords.latitude + position.coords.longitute;
+            if (err.code == 1) {
+
+                // access is denied
             }
         }
+        getLocation();
 
         $(document).ready(function () {
             $(function () {
