@@ -1,7 +1,7 @@
 ﻿@model DotNetProject.Models.WeatherViewModel
 
-<div>
-    <h4>WeatherViewModel</h4>
+<div style="padding-top: 10px;padding-left: 10px;padding-bottom: 10px;padding-right: 10px;">
+    <h4>Current Weather</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,10 +17,23 @@
             @Html.DisplayFor(model => model.Temperature)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.HighTemp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HighTemp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LowTemp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LowTemp)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Condition)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Condition)
         </dd>
     </dl>
+    <img src="@Model.ImageURL" style="display: flex; right: 0; margin: auto;" />
 </div>

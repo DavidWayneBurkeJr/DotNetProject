@@ -46,18 +46,18 @@ namespace DotNetProject
 
             services.AddAuthentication()
             .AddFacebook(facebookOptions =>{
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.AppId = "322259871921871";
+                facebookOptions.AppSecret = "34c5b30fd4ce1eae8e57db9622c1528a";
             })
             .AddGoogle(googleOptions =>
             {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                googleOptions.ClientId = "935766341488-mvdfio2hhmtje5lucu920thmogklits8.apps.googleusercontent.com";
+                googleOptions.ClientSecret = "UDdE7JauTuhUnmpjjZOufgvJ";
             })
             .AddTwitter(twitterOptions =>
             {
-                twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
-                twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
+                twitterOptions.ConsumerKey = "xiqdDfyjhEQdSKilY63j4aRjqCQnNlu6PIPFe9uHv1eHsuvJKc";
+                twitterOptions.ConsumerSecret = "w6xZvsN9N3qdGROS0f8xlCejp";
             });
 
             // Add application services.

@@ -37,6 +37,7 @@ html body span::before {
   border-radius: 20px;
   width: 30%;
   min-height: 300px;
+  max-height: 370px;
   min-width: 300px;
   background: #ffffff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -47,6 +48,7 @@ html body span::before {
   justify-content: center;
   height: 100%;
   margin: 10px;
+  overflow: hidden;
 }
 .main .apiElement::after {
   content: "";
@@ -67,4 +69,8 @@ html body span::before {
 }
 .main .apiElement:hover::after {
   opacity: 1;
+}
+.news {
+  display: inline-block;
+  width: 100%;
 }

@@ -9,6 +9,9 @@ namespace DotNetProject.Models
     {
         public String City { get; set; }
         public String Temperature { get; set; }
+        public String HighTemp { get; set; }
+        public String LowTemp { get; set; }
         public String Condition { get; set; }
+        public String ImageURL { get; set; }
     }
 }

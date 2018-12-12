@@ -6,6 +6,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using Newtonsoft.Json;
+using NewsAPI;
+using NewsAPI.Models;
+using NewsAPI.Constants;
+using System;
 
 namespace DotNetProject.Controllers
 {
@@ -84,20 +88,50 @@ namespace DotNetProject.Controllers
         public IActionResult GetWeatherInfo(string latitude, string longitude)
         {
             string appId = "f06c088d68f929077a6ba94b535fe6db";
-            string url = string.Format("http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&appid={2}", latitude, longitude, appId);
+            string url = string.Format("http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=imperial&appid={2}", latitude, longitude, appId);
             using (WebClient client = new WebClient())
             {
                 string json = client.DownloadString(url);
 
-                WeatherInfo weatherInfo = JsonConvert.DeserializeObject<WeatherInfo>(json);
+                ResponseWeather rootObject = JsonConvert.DeserializeObject<ResponseWeather>(json);
                 WeatherViewModel weatherViewModel = new WeatherViewModel
                 {
-                    City = "City",
-                    Temperature = "69",
-                    Condition = "Shitty"
+                    City = rootObject.name,
+                    Temperature = rootObject.main.temp.ToString() + "°",
+                    HighTemp = rootObject.main.temp_max.ToString() + "°",
+                    LowTemp = rootObject.main.temp_min.ToString() + "°",
+                    Condition = rootObject.weather[0].description,
+                    ImageURL = "http://openweathermap.org/img/w/" + rootObject.weather[0].icon + ".png"
                 };
                 return PartialView("WeatherView", weatherViewModel);
             }
         }
+
+        [HttpPost]
+        public IActionResult GetNews()
+        {
+            var newsApiClient = new NewsApiClient("f69e8294da9144e894cce66dbfc6ce89");
+            var articlesResponse = newsApiClient.GetTopHeadlines(new TopHeadlinesRequest
+            {
+                Country = Countries.US,
+                PageSize = 20
+            });
+            List<NewsResponse> newsResponses = new List<NewsResponse>();
+            foreach(var article in articlesResponse.Articles)
+            {
+                NewsResponse newsResponse = new NewsResponse
+                {
+                    Title = article.Title,
+                    Description = article.Description,
+                    Date = article.PublishedAt,
+                    URL = article.Url,
+                    ImageURL = article.UrlToImage
+                };
+                newsResponses.Add(newsResponse);
+            }
+            return PartialView("NewsView", newsResponses);
+            
+        }
+
     }
 }

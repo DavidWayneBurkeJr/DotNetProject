@@ -17,14 +17,89 @@
     {
         @foreach (var api in Model)
         {
-            <div class="apiElement" id="@api.ApiId">
-                <a>@api.ApiId</a>
-            </div>
+
+            @if (api.ApiId == 3)
+            {
+                <div class="apiElement" id="@api.ApiId">
+                    <div class="grid-container" style="display: grid; grid-template-columns: auto;">
+                        <div class="item1">
+                            <h4>Spotify Connect</h4>
+                            <hr />
+                        </div>
+                        <div class="item2"></div>
+                        <div class="item3" style="width: 50px; height: 50px; margin: auto">
+                            <img src="~/images/connect-logo.svg" />
+                        </div>
+                        <div class="item4">
+                        </div>
+                    </div>
+                </div>
+                <script src="https://sdk.scdn.co/spotify-player.js"></script>
+                <script>
+                    window.onSpotifyWebPlaybackSDKReady = () => {
+                        const token = 'BQATgVH-jetr8rW0a_NEv1f532aEDAoTFdTSklJx95jsfifZkSHbnikMJyeuqaDNuF2thWNLDf-f30jTlJ5bHumAh86vdqABN8-FkgSAanEW5JelQrMRYhvh-P-iJwJobW0ZOBfoYRkvS5onojvX8Xy_PnpcHt6-khI5k7I3';
+                        const player = new Spotify.Player({
+                            name: 'Web Playback SDK Quick Start Player',
+                            getOAuthToken: cb => { cb(token); }
+                        });
+
+                        // Error handling
+                        player.addListener('initialization_error', ({ message }) => { console.error(message); });
+                        player.addListener('authentication_error', ({ message }) => { console.error(message); });
+                        player.addListener('account_error', ({ message }) => { console.error(message); });
+                        player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+                        // Playback status updates
+                        player.addListener('player_state_changed', state => { console.log(state); });
+
+                        // Ready
+                        player.addListener('ready', ({ device_id }) => {
+                            console.log('Ready with Device ID', device_id);
+                        });
+
+                        // Not Ready
+                        player.addListener('not_ready', ({ device_id }) => {
+                            console.log('Device ID has gone offline', device_id);
+                        });
+
+                        // Connect to the player!
+                        player.connect();
+
+                        player.getCurrentState().then(state => {
+                            if (!state) {
+                                console.error('User is not playing music through the Web Playback SDK');
+                                return;
+                            }
+
+                            let {
+                                current_track,
+                                next_tracks: [next_track]
+                            } = state.track_window;
+
+                            console.log('Currently Playing', current_track);
+                            console.log('Playing Next', next_track);
+                        });
+                    };
+                </script>
+            }else if(api.ApiId == 2){
+                <div class="apiElement" id="@api.ApiId" style="overflow: scroll; padding: 20px">
+                    <a>@api.ApiId</a>
+                </div>
+            }
+            else
+            {
+                <div class="apiElement" id="@api.ApiId">
+                    <a>@api.ApiId</a>
+                </div>
+            }
         }
     }
-    <div class="apiElement" id="addNew">
-        <a asp-controller="API" asp-action="SelectAPI" data-target="#modal-container" data-toggle="modal"><i class="center-icon-plus fas fa-plus"></i></a>
-    </div>
+    <a asp-controller="API" asp-action="SelectAPI" data-target="#modal-container" data-toggle="modal" style="height: 100%; text-decoration: none">
+        <div class="apiElement" id="addNew">
+            <i class="center-icon-plus fas fa-plus"></i>
+
+        </div>
+    </a>
 </div>
 @section Scripts {
     <script type="text/javascript">
@@ -68,6 +143,18 @@
         }
         getLocation();
 
+        function showNews() {
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Content("~/API/GetNews")',
+            data: {
+            },
+                success: function (result) {
+                    document.getElementById('2').innerHTML = result;
+            }
+        });
+        }
+        showNews();
         $(document).ready(function () {
             $(function () {
                 // boostrap 4 load modal example from docs

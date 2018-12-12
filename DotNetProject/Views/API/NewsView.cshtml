@@ -1,0 +1,29 @@
+﻿@model IEnumerable<DotNetProject.Models.NewsResponse>
+
+    <div class="news">
+        <div class="grid-container" style="display: inline-block;
+    width: 100%;">
+
+            @foreach (var item in Model)
+            {
+                <div class="item1">
+                    <h4>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </h4>
+                    <hr />
+                </div>
+                <div class="item2">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </div>
+                <div class="item3">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </div>
+                <div class="item4">
+                    <img src="@item.ImageURL" style="width: 290px" />
+                </div>
+                <div class="item5">
+                    @Html.DisplayFor(modelItem => item.URL)
+                </div>
+            }
+        </div>
+    </div>
